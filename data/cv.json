@@ -319,8 +319,8 @@
             "kinect",
             "interactive"
           ],
-          "status": "needs-thumb",
-          "notes": "Instagram highlight is behind a login wall — needs a still from Vincent to get a thumbnail, or source files to become a case study."
+          "status": "done",
+          "notes": "Thumbnail provided by Vincent. Instagram highlight remains the link target; source files could still upgrade this to a case study."
         },
         {
           "slug": "now-thats-what-i-call-prompin-vol-1",
