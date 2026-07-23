@@ -2,7 +2,7 @@
 title: "ELECTRIC NIGHTMARES"
 date: "2022-08-01"
 client: "Mars Electronica"
-thumb: "assets/image/hero.svg"
+thumb: "assets/image/hero.jpg"
 hashtags:
   - "ai"
   - "stable diffusion"
@@ -15,4 +15,4 @@ roles:
 
 ELECTRIC NIGHTMARES is a collection of Stable Diffusion 1.5 image works exhibited at Mars Electronica, 2022.
 
-**⚠ SAMPLE CASE STUDY** — this is scaffold demo content proving the pipeline. An agent worker should replace the placeholder SVGs with real images harvested from the Google Photos album linked in `data/cv.json` (https://photos.app.goo.gl/pvmrWjocYRna77Jk7) and rewrite this overview per EXECUTION-PLAN.md.
+*(WIP: carousel images still to be curated from the Google Photos album linked in `data/cv.json` — https://photos.app.goo.gl/pvmrWjocYRna77Jk7 — and this overview expanded per EXECUTION-PLAN.md.)*
