@@ -442,6 +442,13 @@ async function init() {
   renderTokens();
   setupSidebarToggle();
   setupSearch();
+
+  // keep the sticky filter bar pinned right under the header at any width
+  const header = document.querySelector('.site-header');
+  const setHeaderH = () =>
+    document.documentElement.style.setProperty('--header-h', `${header.offsetHeight}px`);
+  setHeaderH();
+  window.addEventListener('resize', setHeaderH);
 }
 
 init();

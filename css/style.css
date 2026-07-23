@@ -272,8 +272,14 @@ a.cv-item:hover .cv-item-ext { color: var(--accent); }
 }
 
 /* ============ search / filter bar ============ */
+/* sticks just below the sticky header; --header-h is set by js/main.js */
 .filter-bar {
-  padding: clamp(16px, 2vw, 24px) var(--pad) 0;
+  position: sticky;
+  top: var(--header-h, 62px);
+  z-index: 9;
+  padding: clamp(12px, 1.6vw, 18px) var(--pad);
+  background: color-mix(in srgb, var(--bg) 85%, transparent);
+  backdrop-filter: blur(10px);
 }
 
 .search-box {
