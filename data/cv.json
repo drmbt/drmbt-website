@@ -1,0 +1,666 @@
+{
+  "name": "VINCENT NAPLES",
+  "bio": "American, b. 1985, Chicago",
+  "contact": {
+    "email": "vincent@drmbt.com",
+    "website": "https://drmbt.com",
+    "github": "https://github.com/drmbt",
+    "instagram": "https://instagram.com/drmbt"
+  },
+  "links": [
+    {
+      "label": "cv",
+      "url": "drmbt-cv.pdf",
+      "placement": "sidebar"
+    },
+    {
+      "label": "vimeo",
+      "url": "https://vimeo.com/drmbt",
+      "placement": "header"
+    },
+    {
+      "label": "github",
+      "url": "https://github.com/drmbt",
+      "placement": "header"
+    },
+    {
+      "label": "instagram",
+      "url": "https://instagram.com/drmbt",
+      "placement": "header"
+    },
+    {
+      "label": "discord",
+      "url": "https://discord.gg/NnqPGUcJ",
+      "placement": "header"
+    },
+    {
+      "label": "bandcamp",
+      "url": "https://dreambait.bandcamp.com/",
+      "placement": "header"
+    },
+    {
+      "label": "soundcloud",
+      "url": "https://soundcloud.com/drmbt",
+      "placement": "header"
+    },
+    {
+      "label": "patreon",
+      "url": "https://patreon.com/drmbt",
+      "placement": "header"
+    },
+    {
+      "label": "cash app",
+      "url": "https://cash.app/$drmbt",
+      "placement": "header"
+    },
+    {
+      "label": "email",
+      "url": "mailto:vincent@drmbt.com",
+      "placement": "header"
+    }
+  ],
+  "stack": [
+    "TouchDesigner",
+    "Resolume Arena",
+    "Unreal",
+    "Ableton Live",
+    "DaVinci Resolve",
+    "Obsidian",
+    "Docker",
+    "ComfyUI",
+    "Suno.AI",
+    "Open Web UI",
+    "Python",
+    ".js",
+    "Cursor",
+    "Traktor",
+    "Photoshop",
+    "Lightroom",
+    "Premiere"
+  ],
+  "skills": [
+    "Project Management",
+    "Digital Animation",
+    "Generative Media",
+    "Coding",
+    "Graphic Design",
+    "UI / UX",
+    "Photography / Videography",
+    "Film Making",
+    "Editing",
+    "Generative AI",
+    "Creative Coding",
+    "Digital Cartography",
+    "Projection Mapping",
+    "Audio / Visual Performance"
+  ],
+  "sections": [
+    {
+      "id": "employment",
+      "title": "RECENT EMPLOYMENT",
+      "items": [
+        {
+          "slug": "eden-art-labs",
+          "title": "EDEN ART LABS",
+          "year": 2024,
+          "blurb": "Full time startup employment as workflow engineer, ComfyUI specialist",
+          "link": "https://app.eden.art/",
+          "linkType": "website",
+          "display": "external",
+          "tags": [
+            "comfyui",
+            "workflow engineering",
+            "ai"
+          ],
+          "status": "done"
+        },
+        {
+          "slug": "new-inc-exhibition-td",
+          "title": "NEW INC EXHIBITION TD",
+          "year": 2024,
+          "blurb": "Technical direction for multi-venue capstone track exhibitions",
+          "link": null,
+          "linkType": null,
+          "display": "none",
+          "tags": [
+            "technical direction",
+            "exhibition"
+          ],
+          "status": "needs-assets"
+        }
+      ]
+    },
+    {
+      "id": "commission",
+      "title": "COMMISSION / COMMERCIAL / CONTRACT",
+      "items": [
+        {
+          "slug": "adjacent-cascade",
+          "title": "ADJACENT CASCADE",
+          "year": 2025,
+          "blurb": "Commercial advert commission, AI driven anime narrative",
+          "link": null,
+          "linkType": null,
+          "display": "none",
+          "tags": [
+            "commercial",
+            "ai",
+            "animation"
+          ],
+          "status": "needs-assets"
+        }
+      ]
+    },
+    {
+      "id": "solo-work",
+      "title": "SOLO WORK",
+      "items": [
+        {
+          "slug": "shadow-selfie-2026",
+          "title": "SHADOW SELFIE 2026",
+          "year": 2026,
+          "blurb": "MARS ELECTRONICA, interactive AI roast bot kiosk",
+          "link": "https://photos.app.goo.gl/Vukr7G8Fh3VWDLyc7",
+          "linkType": "google-photos",
+          "display": "case-study",
+          "tags": [
+            "interactive",
+            "ai",
+            "installation",
+            "kiosk"
+          ],
+          "status": "todo"
+        },
+        {
+          "slug": "super-dope-mixtape",
+          "title": "SUPER DOPE MIXTAPE",
+          "year": 2026,
+          "blurb": "Digital audio, Suno AI and Ableton Live",
+          "link": "https://soundcloud.com/vincent-naples-728267153/super-dope-beat-mixtape",
+          "linkType": "soundcloud",
+          "display": "external",
+          "tags": [
+            "audio",
+            "suno",
+            "music"
+          ],
+          "status": "done"
+        },
+        {
+          "slug": "latent-latex",
+          "title": "LATENT LATEX",
+          "year": 2026,
+          "blurb": "Remix of LOVESTADT '22 image works, as interpolated video loop",
+          "link": "https://photos.app.goo.gl/A3uG2NbrfyHf4Ltd6",
+          "linkType": "google-photos",
+          "display": "case-study",
+          "tags": [
+            "video",
+            "ai",
+            "interpolation",
+            "generative"
+          ],
+          "status": "todo",
+          "notes": "CV link points to the same Google Photos album as LOVESTADT — verify correct album with Vincent or harvest video loops specifically."
+        },
+        {
+          "slug": "latent-martians",
+          "title": "LATENT MARTIANS",
+          "year": 2026,
+          "blurb": "AI interpolations video of Mars '26 cohort, digital video",
+          "link": "https://photos.app.goo.gl/ExFLchMweDgXHFJ58",
+          "linkType": "google-photos",
+          "display": "case-study",
+          "tags": [
+            "video",
+            "ai",
+            "interpolation",
+            "mars"
+          ],
+          "status": "todo"
+        },
+        {
+          "slug": "proof-of-waste",
+          "title": "PROOF OF WASTE",
+          "year": 2026,
+          "blurb": "Projection and digital display, solar electricity, Mars",
+          "link": "https://photos.app.goo.gl/uvqRcuCqkWFNkAKVA",
+          "linkType": "google-photos",
+          "display": "case-study",
+          "tags": [
+            "projection",
+            "installation",
+            "solar",
+            "mars"
+          ],
+          "status": "todo"
+        },
+        {
+          "slug": "prosperity-sphere",
+          "title": "PROSPERITY SPHERE",
+          "year": 2026,
+          "blurb": "Film short, Martian AI film festival",
+          "link": "https://photos.app.goo.gl/EDchXjHgdsmrn81X6",
+          "linkType": "google-photos",
+          "display": "case-study",
+          "tags": [
+            "film",
+            "ai",
+            "mars"
+          ],
+          "status": "todo"
+        },
+        {
+          "slug": "pure-slop",
+          "title": "PURE SLOP",
+          "year": 2026,
+          "blurb": "AI parody of PURE MOODS, video infomercial and audio album, Suno",
+          "link": "https://prompin.bandcamp.com/album/pure-slop",
+          "linkType": "bandcamp",
+          "extraLinks": [
+            {
+              "label": "Video infomercial",
+              "url": "https://photos.app.goo.gl/yTXr7Tp54V94LyEA9",
+              "linkType": "google-photos"
+            }
+          ],
+          "display": "case-study",
+          "tags": [
+            "audio",
+            "video",
+            "suno",
+            "parody"
+          ],
+          "status": "todo"
+        },
+        {
+          "slug": "texture-cache",
+          "title": "TEXTURE CACHE",
+          "year": 2025,
+          "blurb": "Photo and procedurally generated video installation, Bali",
+          "link": "https://drmbt.github.io/dinacon-bali-2025/",
+          "linkType": "website",
+          "display": "external",
+          "tags": [
+            "installation",
+            "photography",
+            "generative",
+            "bali"
+          ],
+          "status": "done",
+          "notes": "Live microsite already documents this well — direct link. Could be upgraded to a case study later."
+        },
+        {
+          "slug": "vincent-naples-solo-exhibition",
+          "title": "VINCENT NAPLES SOLO EXHIBITION",
+          "year": 2025,
+          "blurb": "Mixed media, artist talk, RNA.Studio Lisbon",
+          "link": "https://photos.app.goo.gl/A13RsfsSPEnn1RNs5",
+          "linkType": "google-photos",
+          "display": "case-study",
+          "tags": [
+            "exhibition",
+            "mixed media",
+            "lisbon"
+          ],
+          "status": "todo"
+        },
+        {
+          "slug": "tbilisi-timewall",
+          "title": "TBILISI TIMEWALL",
+          "year": 2025,
+          "blurb": "Timelapse photography, projection and kinect, Tbilisi, Georgia",
+          "link": "https://www.instagram.com/stories/highlights/18083271461501543/",
+          "linkType": "instagram",
+          "display": "external",
+          "tags": [
+            "timelapse",
+            "projection",
+            "kinect",
+            "interactive"
+          ],
+          "status": "needs-thumb",
+          "notes": "Instagram highlight is behind a login wall — needs a still from Vincent to get a thumbnail, or source files to become a case study."
+        },
+        {
+          "slug": "now-thats-what-i-call-prompin-vol-1",
+          "title": "NOW THAT'S WHAT I CALL PROMPIN' VOL. 1",
+          "year": 2024,
+          "blurb": "Suno AI parody album, audio album",
+          "link": "https://prompin.bandcamp.com/album/now-thats-what-i-call-prompin-vol1",
+          "linkType": "bandcamp",
+          "display": "external",
+          "tags": [
+            "audio",
+            "suno",
+            "parody",
+            "music"
+          ],
+          "status": "done"
+        },
+        {
+          "slug": "latent-mirror",
+          "title": "LATENT MIRROR",
+          "year": 2024,
+          "blurb": "Interactive Stream Diffusion mirror, 204 Studios Lisbon",
+          "link": null,
+          "linkType": null,
+          "display": "none",
+          "tags": [
+            "interactive",
+            "ai",
+            "stream diffusion",
+            "installation"
+          ],
+          "status": "needs-assets"
+        },
+        {
+          "slug": "pure-imagination",
+          "title": "PURE IMAGINATION",
+          "year": 2024,
+          "blurb": "Immersive Interactive AI cloud sculpture, Hero BLOOM, NYC",
+          "link": "https://photos.google.com/share/AF1QipOqfAy3rYPZZGwUienSk4bWFhpUsuyQSqNKK--OaKd8Zk7UoJy-FoOHFFp8B3VQ9Q?key=VDZxZ3NHTmpaWHVTMEpTME5ERU12RkJvZzlGSW9B",
+          "linkType": "google-photos",
+          "display": "case-study",
+          "tags": [
+            "interactive",
+            "ai",
+            "installation",
+            "sculpture",
+            "nyc"
+          ],
+          "status": "todo"
+        },
+        {
+          "slug": "textures-gan",
+          "title": "TEXTURES GAN",
+          "year": 2022,
+          "blurb": "Video work rendered from output of fine tuned GAN on textural photography",
+          "link": "https://vimeo.com/1197793396",
+          "linkType": "vimeo",
+          "display": "external",
+          "tags": [
+            "video",
+            "gan",
+            "generative",
+            "photography"
+          ],
+          "status": "done",
+          "notes": "Vimeo thumbnail available via oEmbed: https://vimeo.com/api/oembed.json?url=https://vimeo.com/1197793396"
+        },
+        {
+          "slug": "electric-nightmares",
+          "title": "ELECTRIC NIGHTMARES",
+          "year": 2022,
+          "blurb": "Stable Diffusion 1.5 images collection, Mars Electronica",
+          "link": "https://photos.app.goo.gl/pvmrWjocYRna77Jk7",
+          "linkType": "google-photos",
+          "display": "case-study",
+          "tags": [
+            "ai",
+            "stable diffusion",
+            "images",
+            "mars"
+          ],
+          "status": "todo"
+        }
+      ]
+    },
+    {
+      "id": "collaborative-work",
+      "title": "COLLABORATIVE WORK",
+      "items": [
+        {
+          "slug": "bombay-beach-network-map",
+          "title": "BOMBAY BEACH NETWORK MAP",
+          "year": 2026,
+          "blurb": "VVEX collab, interactive web app, js, html, drone photography",
+          "link": "https://website-bay-one-56.vercel.app/network_map",
+          "linkType": "website",
+          "display": "external",
+          "tags": [
+            "web app",
+            "cartography",
+            "drone",
+            "collaboration"
+          ],
+          "status": "done"
+        },
+        {
+          "slug": "bombay-beach-biennale-schedule-map",
+          "title": "BOMBAY BEACH BIENNALE SCHEDULE MAP",
+          "year": 2026,
+          "blurb": "VVEX collab, .js and html, interactive web app",
+          "link": "https://bbb-map-app.vercel.app/",
+          "linkType": "website",
+          "display": "external",
+          "tags": [
+            "web app",
+            "cartography",
+            "collaboration"
+          ],
+          "status": "done"
+        },
+        {
+          "slug": "prompin-studio",
+          "title": "PROMPIN' STUDIO",
+          "year": 2025,
+          "blurb": "AI first media management desktop application",
+          "link": null,
+          "linkType": null,
+          "display": "none",
+          "tags": [
+            "desktop app",
+            "ai",
+            "media management"
+          ],
+          "status": "needs-assets"
+        },
+        {
+          "slug": "temple-abyss",
+          "title": "TEMPLE: ABYSS",
+          "year": 2025,
+          "blurb": "Real time mint NFT gen AI workflow and project system design for Taste",
+          "link": "https://abyss.cards/",
+          "linkType": "website",
+          "display": "external",
+          "tags": [
+            "nft",
+            "ai",
+            "workflow",
+            "system design"
+          ],
+          "status": "done"
+        },
+        {
+          "slug": "mixture-of-experts-attention",
+          "title": "MIXTURE OF EXPERTS: ATTENTION",
+          "year": 2025,
+          "blurb": "Music video, Dor Brothers AI film festival submission",
+          "link": "https://www.youtube.com/watch?v=jLuILDGydZg",
+          "linkType": "youtube",
+          "display": "external",
+          "tags": [
+            "music video",
+            "ai",
+            "film"
+          ],
+          "status": "done",
+          "notes": "YouTube thumbnail: https://img.youtube.com/vi/jLuILDGydZg/maxresdefault.jpg"
+        },
+        {
+          "slug": "cur-ai-tor",
+          "title": "CUR.AI.TOR",
+          "year": 2024,
+          "blurb": "With Charles Philipp, agentic gallerist chat bot assistant",
+          "link": null,
+          "linkType": null,
+          "display": "none",
+          "tags": [
+            "chatbot",
+            "ai",
+            "agentic",
+            "collaboration"
+          ],
+          "status": "needs-assets"
+        }
+      ]
+    },
+    {
+      "id": "exhibition",
+      "title": "EXHIBITION",
+      "items": [
+        {
+          "slug": "nyc-resistor-interactive-show",
+          "title": "NYC RESISTOR INTERACTIVE SHOW",
+          "year": 2024,
+          "blurb": "Shadow Selfie AI roast mirror group exhibition",
+          "link": null,
+          "linkType": null,
+          "display": "none",
+          "tags": [
+            "exhibition",
+            "interactive",
+            "ai"
+          ],
+          "status": "needs-assets",
+          "notes": "Could cross-link to shadow-selfie-2026 case study once built."
+        },
+        {
+          "slug": "lovestadt",
+          "title": "LOVESTADT",
+          "year": 2022,
+          "blurb": "Future fetish group exhibition, Stable Diffusion 1.5, Art.Stadt Hamburg",
+          "link": "https://photos.app.goo.gl/A3uG2NbrfyHf4Ltd6",
+          "linkType": "google-photos",
+          "display": "case-study",
+          "tags": [
+            "exhibition",
+            "ai",
+            "stable diffusion",
+            "hamburg"
+          ],
+          "status": "todo"
+        }
+      ]
+    },
+    {
+      "id": "workshop-lecture",
+      "title": "WORKSHOP / LECTURE",
+      "items": [
+        {
+          "slug": "intermediate-td-practices",
+          "title": "INTERMEDIATE TD PRACTICES",
+          "year": 2026,
+          "blurb": "Workshop, TIAT SF",
+          "link": "https://luma.com/drmbt",
+          "linkType": "website",
+          "display": "external",
+          "tags": [
+            "workshop",
+            "touchdesigner",
+            "education"
+          ],
+          "status": "done"
+        },
+        {
+          "slug": "on-slop",
+          "title": "ON SLOP",
+          "year": 2026,
+          "blurb": "Lecture and slideshow, Mars College",
+          "link": null,
+          "linkType": null,
+          "display": "none",
+          "tags": [
+            "lecture",
+            "slideshow",
+            "mars"
+          ],
+          "status": "needs-assets"
+        },
+        {
+          "slug": "art-of-mancy-talk",
+          "title": "ART OF MANCY",
+          "year": 2023,
+          "blurb": "Artist talk with Primavera Di Filippi on embodied AI",
+          "link": "https://medium.com/alien-club/the-art-of-mancy-0fcee40a0765",
+          "linkType": "medium",
+          "display": "external",
+          "tags": [
+            "artist talk",
+            "embodied ai"
+          ],
+          "status": "done"
+        }
+      ]
+    },
+    {
+      "id": "publication",
+      "title": "PUBLICATION",
+      "items": [
+        {
+          "slug": "outer-membrane-zine",
+          "title": "OUTER MEMBRANE ZINE",
+          "year": 2026,
+          "blurb": "Essay On Slop, Mars zine",
+          "link": null,
+          "linkType": null,
+          "display": "none",
+          "tags": [
+            "essay",
+            "zine",
+            "publication"
+          ],
+          "status": "needs-assets"
+        },
+        {
+          "slug": "the-art-of-mancy",
+          "title": "THE ART OF MANCY: BREATHING LIFE INTO TECHNOLOGY",
+          "year": 2024,
+          "blurb": "Essay with Primavera di Filippi, Alien.Papers, on embodied AI",
+          "link": "https://medium.com/alien-club/the-art-of-mancy-0fcee40a0765",
+          "linkType": "medium",
+          "display": "external",
+          "tags": [
+            "essay",
+            "publication",
+            "embodied ai"
+          ],
+          "status": "done"
+        }
+      ]
+    },
+    {
+      "id": "education",
+      "title": "EDUCATION",
+      "items": [
+        {
+          "slug": "bfa-jazz-studies",
+          "title": "BFA JAZZ STUDIES",
+          "year": 2008,
+          "blurb": "Bachelors of Fine Arts in Jazz Studies, Elmhurst College, Elmhurst IL",
+          "link": null,
+          "linkType": null,
+          "display": "none",
+          "tags": [
+            "education"
+          ],
+          "status": "done"
+        },
+        {
+          "slug": "bs-music-business",
+          "title": "BS MUSIC BUSINESS",
+          "year": 2008,
+          "blurb": "Bachelors of Science in Music Business, Elmhurst College, Elmhurst IL",
+          "link": null,
+          "linkType": null,
+          "display": "none",
+          "tags": [
+            "education"
+          ],
+          "status": "done"
+        }
+      ]
+    }
+  ]
+}

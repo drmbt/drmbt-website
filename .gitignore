@@ -1,0 +1,10 @@
+node_modules/
+.env
+.DS_Store
+
+# Heavy media lives in R2, referenced via projects/<slug>/media.json manifests
+projects/*/assets/video/
+projects/*/assets/audio/
+
+# temporary media staging for harvested albums (see EXECUTION-PLAN.md)
+_inbox/
