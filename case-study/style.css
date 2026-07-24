@@ -412,6 +412,7 @@
   background: var(--bg);
   z-index: 9999;
   display: none;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 }
@@ -419,9 +420,20 @@
 
 .lightbox-img {
   max-width: 90vw;
-  max-height: 90vh;
+  max-height: 85vh;
   object-fit: contain;
   animation: lightbox-fade-in 0.3s ease;
+}
+
+/* filename-derived caption (prompt/title) under the fullscreen image */
+.lightbox-caption {
+  margin-top: 14px;
+  max-width: 80vw;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  color: var(--text-dim);
 }
 
 .lightbox button {

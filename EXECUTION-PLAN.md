@@ -20,8 +20,13 @@ in `data/cv.json`, done.
   - `assets/audio/*` → audio players
 - `npm run build:cases` regenerates `projects/<slug>/index.html` +
   `projects/index.json`. **Never hand-edit generated files.**
-- Images/posters are committed to git. Video/audio are gitignored and synced
-  to R2 via `npm run media:push` (requires `.env` — see "R2 setup" below).
+- ALL case-study media (image/poster/video/audio) is gitignored and synced
+  to R2 via `npm run media:push` (requires `.env`). Committed `media.json`
+  manifests record what's remote; the deploy build regenerates pages with
+  media.drmbt.com URLs, local dev uses local files. Never run `media:clean`.
+- Image/poster filenames double as lightbox captions ("00010_don_t_fear_
+  the_reaper.jpg" → "don't fear the reaper") — name files after the
+  prompt/title of the work, keep the NNNNN_ prefix for ordering.
 - `assets/thumbs/<slug>.jpg` — thumbnail for external-link cards (the grid
   falls back to a text placeholder if missing).
 - Homepage grid card resolution order for a CV item: built case study wins;

@@ -19,7 +19,7 @@ import { execFileSync } from 'child_process';
 
 const root = import.meta.dirname;
 const projectsDir = path.join(root, 'projects');
-const SYNC_DIRS = ['video', 'audio'];
+const SYNC_DIRS = ['video', 'audio', 'image', 'poster'];
 
 // minimal .env loader (no override of real environment)
 const envPath = path.join(root, '.env');
@@ -41,6 +41,8 @@ const baseUrl = (() => {
 const CONTENT_TYPES = {
   '.mp4': 'video/mp4', '.webm': 'video/webm', '.mov': 'video/quicktime',
   '.ogg': 'video/ogg', '.mp3': 'audio/mpeg', '.m4a': 'audio/mp4', '.wav': 'audio/wav',
+  '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.png': 'image/png',
+  '.webp': 'image/webp', '.avif': 'image/avif', '.gif': 'image/gif', '.svg': 'image/svg+xml',
 };
 
 const projectFolders = () =>

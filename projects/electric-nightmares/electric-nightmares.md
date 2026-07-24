@@ -5,7 +5,7 @@ client: "Mars Electronica"
 thumb: "assets/image/hero.jpg"
 hashtags:
   - "ai"
-  - "stable diffusion"
+  - "vqgan+clip"
   - "images"
   - "mars"
 roles:
@@ -13,6 +13,8 @@ roles:
     name: "VINCENT NAPLES"
 ---
 
-ELECTRIC NIGHTMARES is a collection of Stable Diffusion 1.5 image works exhibited at Mars Electronica, 2022.
+ELECTRIC NIGHTMARES is a collection of early text-to-image experiments made with VQGAN + CLIP and shown at Mars Electronica, 2022.
 
-*(WIP: carousel images still to be curated from the Google Photos album linked in `data/cv.json` — https://photos.app.goo.gl/pvmrWjocYRna77Jk7 — and this overview expanded per EXECUTION-PLAN.md.)*
+The premise was restraint: feed the model the simplest prompts possible — short, vague phrases chosen to elicit fear — and see what dread it could conjure from almost no verbosity. No style tags, no negative prompts, no prompt engineering. Just "sleep paralysis demon". Just "staring into the abyss, the abyss stares back".
+
+Each image keeps its original prompt as its filename — open any image in the viewer to see the words that summoned it.

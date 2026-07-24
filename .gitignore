@@ -2,9 +2,13 @@ node_modules/
 .env
 .DS_Store
 
-# Heavy media lives in R2, referenced via projects/<slug>/media.json manifests
+# Case-study media lives in R2, referenced via projects/<slug>/media.json
+# manifests; CI rebuilds pages with media.drmbt.com URLs. Keep local copies
+# for dev — never run media:clean (some may be symlinks into Google Drive).
 projects/*/assets/video/
 projects/*/assets/audio/
+projects/*/assets/image/
+projects/*/assets/poster/
 
 # temporary media staging for harvested albums (see EXECUTION-PLAN.md)
 _inbox/

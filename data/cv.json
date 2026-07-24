@@ -392,17 +392,17 @@
           "slug": "electric-nightmares",
           "title": "ELECTRIC NIGHTMARES",
           "year": 2022,
-          "blurb": "Stable Diffusion 1.5 images collection, Mars Electronica",
+          "blurb": "VQGAN + CLIP images collection, Mars Electronica",
           "link": "https://photos.app.goo.gl/pvmrWjocYRna77Jk7",
           "linkType": "google-photos",
           "display": "case-study",
           "tags": [
             "ai",
-            "stable diffusion",
+            "vqgan+clip",
             "images",
             "mars"
           ],
-          "status": "todo"
+          "status": "built"
         }
       ]
     },

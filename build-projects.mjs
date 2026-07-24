@@ -135,7 +135,9 @@ for (const folder of folders) {
 
   const videos = mergedMedia(projectDir, folder, 'video', manifest, missing);
   const audios = mergedMedia(projectDir, folder, 'audio', manifest, missing);
-  updateManifest(projectDir, manifest, [...videos, ...audios]);
+  const images = mergedMedia(projectDir, folder, 'image', manifest, missing);
+  const posterM = mergedMedia(projectDir, folder, 'poster', manifest, missing);
+  updateManifest(projectDir, manifest, [...videos, ...audios, ...images, ...posterM]);
   if (missing.length) {
     console.warn(`${folder}: ${missing.length} media file(s) not local and no baseUrl in media.config.json:\n  ${missing.join('\n  ')}`);
   }
@@ -148,16 +150,15 @@ for (const folder of folders) {
       otherVideos.push({ title: titleFromFile(name), sources: [resolved], poster: `${resolved}#t=0`, aspectRatios: ['16:9'] });
     }
   }
-  for (const img of listFiles(path.join(assetsDir, 'image'))) {
-    const p = `assets/image/${img}`;
-    if (img.toLowerCase().startsWith('hero') && !discoveredHero) {
-      discoveredHero = { type: 'image', sources: [p] };
+  for (const { path: p, resolved } of images) {
+    if (path.basename(p).toLowerCase().startsWith('hero') && !discoveredHero) {
+      discoveredHero = { type: 'image', sources: [resolved] };
     } else {
-      carousel.push(p);
+      carousel.push(resolved);
     }
   }
-  for (const p of listFiles(path.join(assetsDir, 'poster'))) {
-    posters.push(`assets/poster/${p}`);
+  for (const { resolved } of posterM) {
+    posters.push(resolved);
   }
   for (const { path: p, resolved } of audios) {
     audio.push({ title: titleFromFile(path.basename(p)), path: resolved });
@@ -171,11 +172,13 @@ for (const folder of folders) {
     if (resolved !== p) continue; // remote-only
     existingMedia.push({ name: path.basename(p), path: p, role: path.basename(p).toLowerCase().startsWith('hero') ? 'hero' : 'auto' });
   }
-  for (const p of [...carousel, ...(discoveredHero?.type === 'image' ? discoveredHero.sources : [])].sort()) {
+  for (const { path: p, resolved } of images) {
+    if (resolved !== p) continue; // remote-only
     const isHero = path.basename(p).toLowerCase().startsWith('hero') && !heroVideoLocal;
     existingMedia.push({ name: path.basename(p), path: p, role: isHero ? 'hero' : 'auto' });
   }
-  for (const p of posters) {
+  for (const { path: p, resolved } of posterM) {
+    if (resolved !== p) continue;
     existingMedia.push({ name: path.basename(p), path: p, role: 'poster' });
   }
   for (const { path: p, resolved } of audios) {
@@ -188,6 +191,10 @@ for (const folder of folders) {
     }
   }
   data.existingMedia = existingMedia;
+
+  // Frontmatter paths (e.g. thumb) may point at R2-synced files — resolve them
+  const resolvedByPath = new Map([...images, ...posterM].map(e => [e.path, e.resolved]));
+  if (data.thumb) data.thumb = resolvedByPath.get(data.thumb) || data.thumb;
 
   // Frontmatter wins if explicitly defined
   data.hero = data.hero || discoveredHero ||

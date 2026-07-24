@@ -23,9 +23,14 @@ with a collapsible CV sidebar.
 - CSS variable names in `css/style.css` (`--bg`, `--line`, `--text`,
   `--text-dim`, `--accent`, `--mono`, `--pad`) are consumed by
   `case-study/style.css` — don't rename them.
-- Images/posters are committed; video/audio are gitignored and live in R2.
-  Local video/audio may be symlinks into Vincent's Google Drive mount —
+- ALL case-study media (image/poster/video/audio) is gitignored and lives
+  in R2 via committed `media.json` manifests; the CI build regenerates
+  pages with media.drmbt.com URLs. Site-level `assets/thumbs/` stays in
+  git. Local media may be symlinks into Vincent's Google Drive mount —
   never run `media:clean` or delete/modify symlink targets.
+- Case-study image/poster filenames double as lightbox captions
+  (prettified: index prefix stripped, underscores → spaces) — name files
+  after prompts/titles, not `img_001.jpg`.
 - Deploys via Cloudflare Pages (build `npm run build:cases`, output `/`);
   media bucket is Cloudflare R2 (`.env.example` has setup steps).
 - Work items and SOPs live in EXECUTION-PLAN.md — follow it for new case

@@ -304,6 +304,7 @@ class CaseStudy {
       <div class="lightbox" id="lightbox">
         <button class="lightbox-close" id="lightbox-close">ESC / CLOSE</button>
         <img class="lightbox-img" id="lightbox-img" src="" alt="Fullscreen Image" />
+        <div class="lightbox-caption" id="lightbox-caption"></div>
         <div class="lightbox-nav">
           <button id="lightbox-prev">&larr;</button>
           <button id="lightbox-next">&rarr;</button>
@@ -522,12 +523,31 @@ class CaseStudy {
     this.updateLightboxImg();
   }
 
+  // Filenames double as captions ("00010_don_t_fear_the_reaper.jpg" →
+  // "don't fear the reaper") so prompts/titles live in the filesystem,
+  // not baked into images. Generic names (hero/thumb/img_1234…) show nothing.
+  captionFromSrc(src) {
+    let name;
+    try { name = decodeURIComponent((src || '').split('/').pop().split('?')[0]); } catch { return ''; }
+    name = name.replace(/\.[^.]+$/, '').replace(/^\d+[_-]/, '');
+    if (/^(hero|thumb|img|image|dsc|screenshot)[\d_-]*$/i.test(name)) return '';
+    name = name.replace(/[_]+/g, ' ').replace(/\s+/g, ' ').trim();
+    // repair contractions that filenames flattened ("don t" → "don't")
+    return name.replace(/\b(can|don|won|isn|aren|wasn|weren|doesn|didn|couldn|wouldn|shouldn|ain) t\b/gi, "$1't");
+  }
+
   updateLightboxImg() {
     const src = this.currentGallery[this.currentGalleryIndex];
     this.lightboxImg.style.animation = 'none';
     this.lightboxImg.offsetHeight; /* trigger reflow */
     this.lightboxImg.style.animation = null;
     this.lightboxImg.src = src;
+    const captionEl = document.getElementById('lightbox-caption');
+    if (captionEl) {
+      const caption = this.captionFromSrc(src);
+      captionEl.textContent = caption;
+      captionEl.style.display = caption ? '' : 'none';
+    }
   }
 
   setupOtherVideos() {
