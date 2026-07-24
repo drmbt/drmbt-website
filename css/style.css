@@ -583,4 +583,12 @@ a.cv-item:hover .cv-item-ext { color: var(--accent); }
     z-index: 41;
   }
   body:not(.sidebar-collapsed) .sidebar-toggle { left: var(--sidebar-w); }
+
+  /* clear the fixed sidebar toggle so it doesn't overlap the logo */
+  .main-col .site-header { padding-left: 46px; }
+
+  /* fit all nine icons beside the logo on small screens */
+  .icon-nav { gap: 9px; }
+  .icon-nav svg { width: 15px; height: 15px; }
+  .logo { font-size: 15px; }
 }
