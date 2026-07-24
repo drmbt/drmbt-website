@@ -1,0 +1,10 @@
+// Cloudflare Workers static-assets config: serves the repo root as the site.
+// Used by the git-connected Workers build ("npx wrangler deploy").
+{
+  "name": "drmbt-website",
+  "compatibility_date": "2026-07-01",
+  "assets": {
+    "directory": "./",
+    "html_handling": "auto-trailing-slash"
+  }
+}
