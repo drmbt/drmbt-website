@@ -1,0 +1,28 @@
+{
+  "files": [
+    {
+      "path": "assets/image/drone-orthophoto.jpg",
+      "size": 2896459
+    },
+    {
+      "path": "assets/image/network-overview.png",
+      "size": 6325011
+    },
+    {
+      "path": "assets/poster/app-device-panel.png",
+      "size": 7328481
+    },
+    {
+      "path": "assets/poster/device-list.png",
+      "size": 7580308
+    },
+    {
+      "path": "assets/poster/town-links.png",
+      "size": 6533766
+    },
+    {
+      "path": "assets/video/hero.mp4",
+      "size": 21199679
+    }
+  ]
+}

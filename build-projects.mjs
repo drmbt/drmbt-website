@@ -88,6 +88,7 @@ function pageHtml(data, htmlDescription, content, folder, plainDescription) {
   <link rel="stylesheet" href="../../css/style.css">
   <link rel="stylesheet" href="../../case-study/style.css">
   <script src="../../js/accent.js"></script>
+  <script src="../../js/social-nav.js"></script>
 </head>
 <body>
   <div id="app"></div>

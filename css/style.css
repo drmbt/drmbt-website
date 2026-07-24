@@ -258,12 +258,53 @@ a.cv-item:hover .cv-item-ext { color: var(--accent); }
 }
 
 .icon-nav a {
+  position: relative;
   display: flex;
   color: var(--text-dim);
   transition: color 0.15s;
 }
 
 .icon-nav a:hover { color: var(--accent); }
+
+/* rollover help: label bubble from aria-label */
+.icon-nav a::after {
+  content: attr(aria-label);
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-4px);
+  padding: 4px 10px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: var(--bg-card);
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s, transform 0.15s;
+  z-index: 40;
+}
+
+.icon-nav a:hover::after,
+.icon-nav a:focus-visible::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* last few icons: keep the bubble on-screen */
+.icon-nav a:nth-last-child(-n+2)::after {
+  left: auto;
+  right: 0;
+  transform: translateY(-4px);
+}
+
+.icon-nav a:nth-last-child(-n+2):hover::after,
+.icon-nav a:nth-last-child(-n+2):focus-visible::after {
+  transform: translateY(0);
+}
 
 .icon-nav svg {
   width: 18px;

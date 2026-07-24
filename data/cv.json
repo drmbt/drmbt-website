@@ -414,32 +414,55 @@
           "slug": "bombay-beach-network-map",
           "title": "BOMBAY BEACH NETWORK MAP",
           "year": 2026,
-          "blurb": "VVEX collab, interactive web app, js, html, drone photography",
-          "link": "https://website-bay-one-56.vercel.app/network_map",
+          "blurb": "VVEX colab, live community network map, OpenLayers, drone orthophoto",
+          "link": "https://neocities-network-map.vercel.app/",
           "linkType": "website",
-          "display": "external",
+          "display": "case-study",
           "tags": [
-            "web app",
             "cartography",
+            "network mapping",
+            "openlayers",
             "drone",
+            "map",
             "collaboration"
           ],
-          "status": "done"
+          "status": "built"
         },
         {
           "slug": "bombay-beach-biennale-schedule-map",
           "title": "BOMBAY BEACH BIENNALE SCHEDULE MAP",
           "year": 2026,
-          "blurb": "VVEX collab, .js and html, interactive web app",
+          "blurb": "VVEX colab, interactive festival map and schedule app, React",
           "link": "https://bbb-map-app.vercel.app/",
           "linkType": "website",
-          "display": "external",
+          "display": "case-study",
           "tags": [
-            "web app",
             "cartography",
+            "field mapping",
+            "react",
+            "data pipeline",
+            "map",
             "collaboration"
           ],
-          "status": "done"
+          "status": "built"
+        },
+        {
+          "slug": "new-orleans-map",
+          "title": "NEW ORLEANS MAP",
+          "year": 2026,
+          "blurb": "VVEX colab, city trip planner built on the Biennale map platform",
+          "link": "https://nola-map.vercel.app/",
+          "linkType": "website",
+          "display": "case-study",
+          "tags": [
+            "cartography",
+            "map",
+            "web scraping",
+            "data pipeline",
+            "react",
+            "collaboration"
+          ],
+          "status": "built"
         },
         {
           "slug": "prompin-studio",

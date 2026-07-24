@@ -1,0 +1,28 @@
+{
+  "files": [
+    {
+      "path": "assets/image/bombay-beach-app.png",
+      "size": 187315
+    },
+    {
+      "path": "assets/image/map-and-schedule-app.png",
+      "size": 243679
+    },
+    {
+      "path": "assets/poster/bombay-map.png",
+      "size": 2488262
+    },
+    {
+      "path": "assets/poster/calendar.jpg",
+      "size": 586445
+    },
+    {
+      "path": "assets/poster/schedule.png",
+      "size": 150382
+    },
+    {
+      "path": "assets/video/hero.mp4",
+      "size": 9873795
+    }
+  ]
+}
