@@ -9,6 +9,7 @@
     "media:push": "node sync-media.mjs push",
     "media:clean": "node sync-media.mjs clean",
     "media:pull": "node sync-media.mjs pull",
+    "media:prune": "node sync-media.mjs prune",
     "start": "npx serve ."
   },
   "license": "ISC",
