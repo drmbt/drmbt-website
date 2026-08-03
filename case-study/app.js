@@ -178,9 +178,11 @@ class CaseStudy {
           <div class="other-videos-grid">
             ${this.data.otherVideos.map((vid, idx) => `
               <div class="video-thumb" data-idx="${idx}">
-                <video class="video-thumb-preview" muted playsinline>
-                  <source src="${vid.sources[0]}#t=3" type="video/mp4">
-                </video>
+                ${vid.type === 'image'
+                  ? `<img class="video-thumb-preview" src="${vid.sources[0]}" alt="${vid.title}" loading="lazy" />`
+                  : `<video class="video-thumb-preview" muted playsinline>
+                       <source src="${vid.sources[0]}#t=3" type="video/mp4">
+                     </video>`}
                 <div class="video-thumb-title">${vid.title}</div>
               </div>
             `).join('')}
@@ -553,13 +555,22 @@ class CaseStudy {
       thumb.addEventListener('click', () => {
         const idx = thumb.dataset.idx;
         const clicked = this.data.otherVideos[idx];
+        // the demoted hero may be an image (the grid renders both kinds), and
+        // the promoted one is always a video — carrying the type across is what
+        // makes the swap render as <video> instead of an <img> pointed at an mp4
         const oldHero = {
           title: this.data.title,
+          type: this.data.hero.type,
           sources: [...this.data.hero.sources],
           poster: this.data.hero.poster,
         };
+        this.data.hero.type = clicked.type || 'video';
         this.data.hero.sources = clicked.sources;
-        this.data.hero.poster = clicked.poster;
+        // an "other video" carries its own file as its grid poster (…mp4#t=0);
+        // that's not a valid <video poster>, so only keep real images
+        this.data.hero.poster = /\.(jpe?g|png|webp|gif|avif)(\?|#|$)/i.test(clicked.poster || '')
+          ? clicked.poster
+          : null;
         this.data.otherVideos[idx] = oldHero;
 
         this.render();
