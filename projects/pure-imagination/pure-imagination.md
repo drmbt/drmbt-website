@@ -1,24 +1,28 @@
 ---
-title: "PURE IMAGINATION"
-date: "2024-06-27"
-client: "Hero BLOOM, NYC"
-thumb: "assets/image/hero.jpg"
+title: PURE IMAGINATION
+date: '2024-06-27'
+client: 'Hero BLOOM, NYC'
+thumb: assets/image/hero.jpg
 hashtags:
-  - "interactive"
-  - "ai"
-  - "installation"
-  - "sculpture"
-  - "nyc"
-posterImages:
-  - ["assets/poster/01_cloud_painter_tablet_interface.jpg", "assets/poster/02_draw_your_imagination.jpg"]
-  - ["assets/poster/03_cloud_painter_beneath_the_sky.jpg", "assets/poster/04_a_flower_drawn_by_hand.jpg"]
+  - interactive
+  - ai
+  - installation
+  - sculpture
+  - nyc
 roles:
-  - role: "SYSTEMS ARCHITECTURE"
-    name: "VINCENT NAPLES"
-  - role: "CONTENT CREATION"
-    name: "VINCENT NAPLES"
-  - role: "CREATIVE DIRECTION"
-    name: "<a href=\"https://www.spacecowboys.studio/\" target=\"_blank\" rel=\"noopener\">SPACE COWBOYS</a>"
+  - role: SYSTEMS ARCHITECTURE
+    name: VINCENT NAPLES
+  - role: CONTENT CREATION
+    name: VINCENT NAPLES
+  - role: CREATIVE DIRECTION
+    name: >-
+      <a href="https://www.spacecowboys.studio/" target="_blank"
+      rel="noopener">SPACE COWBOYS</a>
+posterImages:
+  - - assets/poster/00001_cloud_painter_tablet_interface.jpg
+    - assets/poster/00002_draw_your_imagination.jpg
+  - - assets/poster/00003_cloud_painter_beneath_the_sky.jpg
+    - assets/poster/00004_a_flower_drawn_by_hand.jpg
 ---
 
 PURE IMAGINATION was a real-time interactive sky built for the BLOOM exhibition at [Hero](https://www.hero-nyc.com/) in New York, a creative challenge brought to me by [Space Cowboys](https://www.spacecowboys.studio/). Visitors — mostly children — lay in a field of white blossoms under a massive 8K LED tile that filled the ceiling of the room. On a tablet at the edge of the field they drew a shape, pressed SUBMIT, and watched it drift overhead as a cloud.

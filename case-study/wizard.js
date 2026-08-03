@@ -1,6 +1,13 @@
 // Case-study editor modal, ported from MarsNET's src/wizard.js. Loaded by
 // case-study/app.js only in author mode (localhost + dev-server.mjs running);
 // posts to the dev server's /api/create-project and /api/delete-project.
+// Role names may legitimately contain markup (a linked studio credit), so every
+// value interpolated into this file's templates goes through here — an
+// unescaped quote in an attribute silently truncates the field on save.
+const attr = s => String(s ?? '')
+  .replace(/&/g, '&amp;').replace(/"/g, '&quot;')
+  .replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
 export function setupWizard() {
   if (document.getElementById('wizard-overlay')) return; // Prevent double injection
 
@@ -54,7 +61,7 @@ export function setupWizard() {
           </div>
 
           <div class="wizard-form-group">
-            <label>Media Assets</label>
+            <label>Media Assets <span class="wizard-label-hint">drag to reorder — list order is page order</span></label>
             <div id="wizard-dropzone" class="wizard-dropzone">
               <svg class="wizard-dropzone-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
@@ -98,8 +105,18 @@ export function setupWizard() {
   const loadingText = document.getElementById('wizard-loading');
   const deleteBtn = document.getElementById('wizard-delete');
 
-  let uploadedFiles = [];
-  let existingFiles = [];
+  // One ordered list drives everything: section membership is the asset's role,
+  // position within a section is its published order (the server turns that into
+  // the numeric filename prefix build-projects.mjs sorts by).
+  const SECTIONS = [
+    { role: 'hero', label: 'Hero', hint: 'one item — video wins over image' },
+    { role: 'auto', label: 'Gallery & videos', hint: 'carousel images and the other-videos grid, in this order' },
+    { role: 'poster', label: 'Posters', hint: 'full-height rows' },
+    { role: 'thumbnail', label: 'Thumbnail only', hint: 'grid card art, kept off the page' },
+  ];
+  let mediaItems = [];
+  let uid = 0;
+  let thumbUid = null;
 
   window.openNewProjectWizard = (editData = null) => {
     const titleEle = document.getElementById('wizard-title');
@@ -115,8 +132,8 @@ export function setupWizard() {
     existingThumbEle.value = '';
     creditsContainer.innerHTML = '';
     fileListContainer.innerHTML = '';
-    uploadedFiles = [];
-    existingFiles = [];
+    mediaItems = [];
+    thumbUid = null;
     selectedTags.clear();
     renderActiveTags();
 
@@ -147,15 +164,25 @@ export function setupWizard() {
         const row = document.createElement('div');
         row.className = 'wizard-credit-row';
         row.innerHTML = `
-          <input type="text" class="wizard-input credit-role" placeholder="Role" value="${r.role}" />
-          <input type="text" class="wizard-input credit-name" placeholder="Name" value="${r.name}" />
+          <input type="text" class="wizard-input credit-role" placeholder="Role" value="${attr(r.role)}" />
+          <input type="text" class="wizard-input credit-name" placeholder="Name" value="${attr(r.name)}" />
           <button type="button" class="wizard-remove-credit" title="Remove">&times;</button>
         `;
         creditsContainer.appendChild(row);
       });
 
       if (editData.existingMedia && Array.isArray(editData.existingMedia)) {
-        existingFiles = editData.existingMedia.slice();
+        mediaItems = editData.existingMedia.map(f => ({
+          uid: ++uid,
+          source: 'existing',
+          name: f.name,
+          path: f.path,
+          role: SECTIONS.some(s => s.role === f.role) ? f.role : 'auto',
+        }));
+        // editData.thumb may already be resolved to an R2 url — match on the tail
+        const thumbRef = editData.thumb || existingThumbEle.value || '';
+        const current = mediaItems.find(m => thumbRef.endsWith(m.path));
+        thumbUid = current ? current.uid : null;
         renderFileList();
       }
     } else {
@@ -286,7 +313,7 @@ export function setupWizard() {
 
   // Dropzone
   const handleFiles = files => {
-    Array.from(files).forEach(f => uploadedFiles.push(f));
+    Array.from(files).forEach(f => mediaItems.push({ uid: ++uid, source: 'new', name: f.name, file: f, role: 'auto' }));
     renderFileList();
   };
   dropzone.addEventListener('dragover', e => {
@@ -308,72 +335,155 @@ export function setupWizard() {
     fileInput.value = '';
   });
 
+  const itemsIn = role => mediaItems.filter(m => m.role === role);
+  const findItem = id => mediaItems.find(m => m.uid === Number(id));
+
+  // Moving an item is always: pull it out, then splice it back in front of a
+  // sibling (or at the end of the target section) — one primitive for drag,
+  // for the arrow buttons and for the role dropdown.
+  const moveItem = (item, role, beforeUid = null) => {
+    mediaItems.splice(mediaItems.indexOf(item), 1);
+    item.role = role;
+    if (role === 'hero') {
+      // hero holds one; whoever was there falls back into the gallery
+      itemsIn('hero').forEach(prev => { prev.role = 'auto'; });
+    }
+    const before = beforeUid ? findItem(beforeUid) : null;
+    if (before && before !== item) mediaItems.splice(mediaItems.indexOf(before), 0, item);
+    else {
+      const section = itemsIn(role);
+      const last = section[section.length - 1];
+      mediaItems.splice(last ? mediaItems.indexOf(last) + 1 : mediaItems.length, 0, item);
+    }
+    renderFileList();
+  };
+
+  const nudge = (item, dir) => {
+    const section = itemsIn(item.role);
+    const at = section.indexOf(item);
+    const target = section[at + dir];
+    if (!target) return;
+    if (dir < 0) moveItem(item, item.role, target.uid);
+    else moveItem(item, item.role, section[at + 2] ? section[at + 2].uid : null);
+  };
+
   const renderFileList = () => {
     fileListContainer.innerHTML = '';
+    if (!mediaItems.length) return;
 
-    existingFiles.forEach((file, index) => {
-      const item = document.createElement('div');
-      item.className = 'wizard-file-item existing-file';
-      item.innerHTML = `
-        <div class="wizard-file-info">
-          <span class="wizard-file-name" title="${file.name}">[Existing] ${file.name}</span>
+    for (const section of SECTIONS) {
+      const items = itemsIn(section.role);
+      // empty optional sections stay visible so there's somewhere to drop
+      const group = document.createElement('div');
+      group.className = 'wizard-media-group';
+      group.dataset.role = section.role;
+      group.innerHTML = `
+        <div class="wizard-media-group-head">
+          <span class="wizard-media-group-title">${section.label}</span>
+          <span class="wizard-media-group-hint">${section.hint}</span>
         </div>
-        <div class="wizard-file-controls">
-          <select class="wizard-role-select existing-role" data-index="${index}">
-            <option value="auto" ${file.role === 'auto' ? 'selected' : ''}>Auto (Carousel/Other Video)</option>
-            <option value="hero" ${file.role === 'hero' ? 'selected' : ''}>Hero Media</option>
-            <option value="poster" ${file.role === 'poster' ? 'selected' : ''}>Poster</option>
-            <option value="thumbnail" ${file.role === 'thumbnail' ? 'selected' : ''}>Thumbnail Only</option>
-          </select>
-          <label class="wizard-thumb-label" title="Set as thumbnail">
-             <input type="radio" name="wizard_thumb_radio" class="existing-thumb-radio" value="existing_${index}" ${(document.getElementById('wizard-existing-thumb').value === file.path || file.role === 'thumbnail') ? 'checked' : ''}> Thumb
-          </label>
-          <button type="button" class="wizard-remove-existing-file" data-index="${index}" title="Remove file">&times;</button>
-        </div>
+        <div class="wizard-media-group-list" data-role="${section.role}"></div>
       `;
-      fileListContainer.appendChild(item);
-    });
-
-    uploadedFiles.forEach((file, index) => {
-      const item = document.createElement('div');
-      item.className = 'wizard-file-item';
-      item.innerHTML = `
-        <div class="wizard-file-info">
-          <span class="wizard-file-name" title="${file.name}">${file.name}</span>
-        </div>
-        <div class="wizard-file-controls">
-          <select class="wizard-role-select new-role" data-index="${index}">
-            <option value="auto">Auto (Carousel/Other Video)</option>
-            <option value="hero">Hero Media</option>
-            <option value="poster">Poster</option>
-            <option value="thumbnail">Thumbnail Only</option>
-          </select>
-          <label class="wizard-thumb-label" title="Set as thumbnail">
-             <input type="radio" name="wizard_thumb_radio" class="new-thumb-radio" value="new_${index}"> Thumb
-          </label>
-          <button type="button" class="wizard-remove-file" data-index="${index}" title="Remove file">&times;</button>
-        </div>
-      `;
-      fileListContainer.appendChild(item);
-    });
+      const list = group.querySelector('.wizard-media-group-list');
+      if (!items.length) {
+        const empty = document.createElement('div');
+        empty.className = 'wizard-media-empty';
+        empty.textContent = 'drop here';
+        list.appendChild(empty);
+      }
+      items.forEach((item, idx) => {
+        const row = document.createElement('div');
+        row.className = `wizard-file-item${item.source === 'existing' ? ' existing-file' : ''}`;
+        row.draggable = true;
+        row.dataset.uid = item.uid;
+        row.innerHTML = `
+          <div class="wizard-file-info">
+            <span class="wizard-drag-handle" title="Drag to reorder">⠿</span>
+            <span class="wizard-file-order">${idx + 1}</span>
+            <span class="wizard-file-name" title="${attr(item.name)}">${item.source === 'new' ? '[New] ' : ''}${attr(item.name)}</span>
+          </div>
+          <div class="wizard-file-controls">
+            <button type="button" class="wizard-nudge" data-dir="-1" title="Move up" ${idx === 0 ? 'disabled' : ''}>↑</button>
+            <button type="button" class="wizard-nudge" data-dir="1" title="Move down" ${idx === items.length - 1 ? 'disabled' : ''}>↓</button>
+            <select class="wizard-role-select">
+              ${SECTIONS.map(s => `<option value="${s.role}" ${item.role === s.role ? 'selected' : ''}>${s.label}</option>`).join('')}
+            </select>
+            <label class="wizard-thumb-label" title="Set as thumbnail">
+               <input type="radio" name="wizard_thumb_radio" value="${item.uid}" ${thumbUid === item.uid ? 'checked' : ''}> Thumb
+            </label>
+            <button type="button" class="wizard-remove-file" title="Remove file">&times;</button>
+          </div>
+        `;
+        list.appendChild(row);
+      });
+      fileListContainer.appendChild(group);
+    }
   };
 
   fileListContainer.addEventListener('click', e => {
+    const row = e.target.closest('.wizard-file-item');
+    if (!row) return;
+    const item = findItem(row.dataset.uid);
+    if (!item) return;
     if (e.target.classList.contains('wizard-remove-file')) {
-      uploadedFiles.splice(parseInt(e.target.dataset.index, 10), 1);
+      mediaItems.splice(mediaItems.indexOf(item), 1);
+      if (thumbUid === item.uid) thumbUid = null;
       renderFileList();
-    } else if (e.target.classList.contains('wizard-remove-existing-file')) {
-      existingFiles.splice(parseInt(e.target.dataset.index, 10), 1);
-      renderFileList();
+    } else if (e.target.classList.contains('wizard-nudge')) {
+      nudge(item, Number(e.target.dataset.dir));
     }
   });
 
-  // only one hero at a time
   fileListContainer.addEventListener('change', e => {
-    if (!e.target.classList.contains('wizard-role-select') || e.target.value !== 'hero') return;
-    fileListContainer.querySelectorAll('.wizard-role-select').forEach(select => {
-      if (select !== e.target && select.value === 'hero') select.value = 'auto';
-    });
+    const row = e.target.closest('.wizard-file-item');
+    const item = row && findItem(row.dataset.uid);
+    if (!item) return;
+    if (e.target.classList.contains('wizard-role-select')) moveItem(item, e.target.value);
+    else if (e.target.type === 'radio') thumbUid = item.uid;
+  });
+
+  /* ---------- drag to reorder / re-role ---------- */
+  let dragUid = null;
+  fileListContainer.addEventListener('dragstart', e => {
+    const row = e.target.closest('.wizard-file-item');
+    if (!row) return;
+    dragUid = Number(row.dataset.uid);
+    row.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', row.dataset.uid); // Firefox needs payload
+  });
+  fileListContainer.addEventListener('dragend', () => {
+    dragUid = null;
+    fileListContainer.querySelectorAll('.drag-over, .dragging')
+      .forEach(el => el.classList.remove('drag-over', 'dragging'));
+  });
+
+  // the row we'd land in front of, or null for "append to this section"
+  const dropTarget = (list, y) => {
+    const rows = [...list.querySelectorAll('.wizard-file-item')].filter(r => Number(r.dataset.uid) !== dragUid);
+    return rows.find(r => {
+      const box = r.getBoundingClientRect();
+      return y < box.top + box.height / 2;
+    }) || null;
+  };
+
+  fileListContainer.addEventListener('dragover', e => {
+    const list = e.target.closest('.wizard-media-group-list');
+    if (!list || dragUid === null) return;
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    fileListContainer.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+    (dropTarget(list, e.clientY) || list).classList.add('drag-over');
+  });
+
+  fileListContainer.addEventListener('drop', e => {
+    const list = e.target.closest('.wizard-media-group-list');
+    if (!list || dragUid === null) return;
+    e.preventDefault();
+    const item = findItem(dragUid);
+    const before = dropTarget(list, e.clientY);
+    dragUid = null;
+    if (item) moveItem(item, list.dataset.role, before ? before.dataset.uid : null);
   });
 
   // Submit
@@ -409,30 +519,23 @@ export function setupWizard() {
       }
     });
 
-    const newSelects = fileListContainer.querySelectorAll('.new-role');
-    uploadedFiles.forEach((file, idx) => {
-      formData.append('files', file);
-      const role = newSelects[idx].value;
-      if (role !== 'auto') formData.append(`file_role_${file.name}`, role);
-    });
-
-    const existingSelects = fileListContainer.querySelectorAll('.existing-role');
-    const existingMediaUpdates = [];
-    existingFiles.forEach((file, idx) => {
-      existingMediaUpdates.push({ ...file, targetRole: existingSelects[idx].value });
-    });
-    formData.append('existing_media', JSON.stringify(existingMediaUpdates));
-
-    const checkedThumbRadio = document.querySelector('input[name="wizard_thumb_radio"]:checked');
-    if (checkedThumbRadio) {
-      if (checkedThumbRadio.value.startsWith('existing_')) {
-        const idx = parseInt(checkedThumbRadio.value.replace('existing_', ''), 10);
-        formData.append('explicit_thumb', existingFiles[idx].path);
-      } else if (checkedThumbRadio.value.startsWith('new_')) {
-        const idx = parseInt(checkedThumbRadio.value.replace('new_', ''), 10);
-        formData.append('explicit_thumb_new', uploadedFiles[idx].name);
+    // Sections in SECTIONS order, items in list order: the plan IS the page order.
+    const plan = [];
+    let uploadIndex = 0;
+    for (const section of SECTIONS) {
+      for (const item of mediaItems.filter(m => m.role === section.role)) {
+        const entry = { source: item.source, role: item.role };
+        if (item.source === 'new') {
+          formData.append('files', item.file);
+          entry.index = uploadIndex++;
+        } else {
+          entry.path = item.path;
+        }
+        if (thumbUid === item.uid) entry.thumb = true;
+        plan.push(entry);
       }
     }
+    formData.append('media_plan', JSON.stringify(plan));
 
     try {
       const res = await fetch('/api/create-project', { method: 'POST', body: formData });

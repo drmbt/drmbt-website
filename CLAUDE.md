@@ -28,6 +28,9 @@ with a collapsible CV sidebar.
   pages with media.drmbt.com URLs. Site-level `assets/thumbs/` stays in
   git. Local media may be symlinks into Vincent's Google Drive mount —
   never run `media:clean` or delete/modify symlink targets.
+- Media order is the `NNNNN_` filename prefix (build sorts by path; captions
+  and video titles strip it). The editor's drag-and-drop reorder renumbers
+  files on save — don't hand-renumber while `npm run dev` is open.
 - Case-study image/poster filenames double as lightbox captions
   (prettified: index prefix stripped, underscores → spaces) — name files
   after prompts/titles, not `img_001.jpg`.

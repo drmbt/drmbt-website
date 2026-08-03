@@ -135,7 +135,7 @@
   margin-top: 1rem;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.75rem;
 }
 
 .wizard-file-item {
@@ -147,6 +147,95 @@
   border-radius: 6px;
   border: 1px solid var(--line);
 }
+
+/* ---------- media groups: section = role, order = published order ---------- */
+.wizard-label-hint {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  text-transform: none;
+  letter-spacing: 0;
+  margin-left: 0.5rem;
+}
+
+.wizard-media-group {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0.75rem;
+}
+
+.wizard-media-group-head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.wizard-media-group-title {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.wizard-media-group-hint {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+}
+
+.wizard-media-group-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-height: 2.5rem;
+  border-radius: 4px;
+}
+
+.wizard-media-group-list.drag-over {
+  outline: 1px dashed var(--accent);
+  outline-offset: 3px;
+}
+
+.wizard-media-empty {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  border: 1px dashed var(--line);
+  border-radius: 4px;
+  padding: 0.6rem 1rem;
+  text-align: center;
+}
+
+.wizard-drag-handle {
+  cursor: grab;
+  color: var(--text-dim);
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
+.wizard-file-order {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  min-width: 1.5rem;
+}
+
+.wizard-file-item.dragging { opacity: 0.4; }
+.wizard-file-item.drag-over { border-top: 2px solid var(--accent); }
+
+.wizard-nudge {
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  color: var(--text);
+  cursor: pointer;
+  font-size: 0.75rem;
+  line-height: 1;
+  padding: 0.25rem 0.4rem;
+}
+.wizard-nudge:disabled { opacity: 0.3; cursor: default; }
+.wizard-nudge:not(:disabled):hover { border-color: var(--accent); color: var(--accent); }
 
 .wizard-file-info {
   display: flex;
@@ -163,7 +252,8 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 250px;
+  flex: 1;
+  min-width: 0;
   cursor: help;
 }
 

@@ -33,7 +33,10 @@ const mediaBaseUrl = (() => {
 
 const listFiles = dir =>
   fs.existsSync(dir) ? fs.readdirSync(dir).filter(f => !f.startsWith('.')).sort() : [];
-const titleFromFile = f => f.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ').toUpperCase();
+// "00002_cloud_painter_demo.mp4" -> "CLOUD PAINTER DEMO" (the numeric prefix is
+// ordering metadata, same convention the lightbox caption strips)
+const titleFromFile = f =>
+  f.replace(/\.[^/.]+$/, '').replace(/^\d+[_-]/, '').replace(/[-_]/g, ' ').toUpperCase();
 
 function readManifest(projectDir) {
   try {

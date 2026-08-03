@@ -14,6 +14,7 @@ import fs from 'fs';
 import http from 'http';
 import path from 'path';
 import { execFileSync } from 'child_process';
+import matter from 'gray-matter';
 import multer from 'multer';
 
 const root = import.meta.dirname;
@@ -55,7 +56,25 @@ function editManifest(projectDir, fn) {
   if (manifest.files.length) fs.writeFileSync(p, JSON.stringify(manifest, null, 2) + '\n');
   else if (fs.existsSync(p)) fs.unlinkSync(p);
 }
-const isSyncedPath = rel => rel.startsWith('assets/video/') || rel.startsWith('assets/audio/');
+// every assets/ dir is R2-synced (see .gitignore + sync-media.mjs SYNC_DIRS)
+const isSyncedPath = rel => /^assets\/(video|audio|image|poster)\//.test(rel);
+
+// Media order is carried by a numeric filename prefix (build-projects.mjs sorts
+// by path, the lightbox caption strips the prefix), so reordering in the editor
+// means renumbering. Reserved hero/thumb names stay put — they're addressed by
+// name, not position.
+const ORDER_PREFIX = /^\d+[_-]/;
+const seqName = (name, n) => `${String(n).padStart(5, '0')}_${name.replace(ORDER_PREFIX, '')}`;
+
+// Walk preserved frontmatter and rewrite any asset path the reorder moved.
+function remapPaths(value, renames) {
+  if (typeof value === 'string') return renames.get(value) || value;
+  if (Array.isArray(value)) return value.map(v => remapPaths(v, renames));
+  if (value && typeof value === 'object') {
+    return Object.fromEntries(Object.entries(value).map(([k, v]) => [k, remapPaths(v, renames)]));
+  }
+  return value;
+}
 
 /* ---------- create / update ---------- */
 function createProject(body, files) {
@@ -90,131 +109,154 @@ function createProject(body, files) {
     fs.mkdirSync(dirs[kind], { recursive: true });
   }
 
-  let thumbRel = '';
-  let existingThumbFlag = existing_thumb || '';
-  let explicitThumbFlag = body.explicit_thumb || '';
-
-  // place a file, uniquifying unless it claims a reserved name (hero/thumb)
-  const placeFile = (fromPath, targetDir, finalName) => {
-    const ext = path.extname(finalName).toLowerCase();
-    let target = path.join(targetDir, finalName);
-    if (target !== fromPath) {
-      const reserved = ['hero', 'thumb'].some(p => finalName.startsWith(p));
-      if (reserved && fs.existsSync(target)) {
-        fs.unlinkSync(target);
-      } else {
-        let counter = 1;
-        while (fs.existsSync(target)) {
-          target = path.join(targetDir, `${path.basename(finalName, ext)}_${counter}${ext}`);
-          counter++;
-        }
-      }
-      fs.renameSync(fromPath, target);
-    }
-    return target;
-  };
   const relOf = abs => path.relative(projectDir, abs).split(path.sep).join('/');
+  const uploads = files || [];
 
-  // --- apply edits to existing media (removals + role changes) ---
-  if (project_id && body.existing_media) {
-    const edits = JSON.parse(body.existing_media);
-    const existing = [];
-    for (const kind of ['video', 'image', 'poster', 'audio']) {
-      for (const f of fs.readdirSync(dirs[kind]).filter(f => !f.startsWith('.'))) {
-        existing.push({ name: f, abs: path.join(dirs[kind], f), kind });
-      }
+  // The wizard sends one ordered plan covering every asset it knows about:
+  //   { source: 'existing', path } | { source: 'new', index }   + role
+  // List order IS the published order, so the plan drives placement, role and
+  // sequence prefix in a single pass.
+  let plan = [];
+  try {
+    if (body.media_plan) plan = JSON.parse(body.media_plan);
+  } catch { /* treat as no plan */ }
+  // a client that posts files without a plan still gets them filed, in upload order
+  if (!plan.length && uploads.length) {
+    plan = uploads.map((_, index) => ({ source: 'new', index, role: 'auto' }));
+  }
+
+  const existing = [];
+  for (const kind of ['video', 'image', 'poster', 'audio']) {
+    for (const f of fs.readdirSync(dirs[kind]).filter(f => !f.startsWith('.'))) {
+      existing.push({ abs: path.join(dirs[kind], f), rel: relOf(path.join(dirs[kind], f)) });
     }
-    for (const f of fs.readdirSync(projectDir).filter(f => !fs.statSync(path.join(projectDir, f)).isDirectory())) {
-      if (f.toLowerCase().startsWith('thumb') && !/\.(md|json|html)$/.test(f)) {
-        existing.push({ name: f, abs: path.join(projectDir, f), kind: 'root' });
-      }
-    }
-
-    for (const file of existing) {
-      const rel = relOf(file.abs);
-      const match = edits.find(e => e.path === rel);
-      if (!match) {
-        fs.unlinkSync(file.abs);
-        if (isSyncedPath(rel)) editManifest(projectDir, list => {
-          const idx = list.findIndex(e => e.path === rel);
-          if (idx >= 0) list.splice(idx, 1);
-        });
-        if (file.kind === 'root' && existingThumbFlag === rel) existingThumbFlag = '';
-        continue;
-      }
-      if (match.targetRole && match.targetRole !== match.role) {
-        const ext = path.extname(file.name).toLowerCase();
-        const isVideo = VIDEO_EXT.includes(ext);
-        const isAudio = AUDIO_EXT.includes(ext);
-        let targetDir = isVideo ? dirs.video : isAudio ? dirs.audio : dirs.image;
-        let finalName = file.name;
-
-        if (match.targetRole === 'hero') {
-          finalName = `hero${ext}`;
-        } else if (match.role === 'hero' || match.role === 'thumbnail') {
-          finalName = `media${ext}`;
-          if (match.role === 'thumbnail' && existingThumbFlag === rel) existingThumbFlag = '';
-        }
-        if (match.targetRole === 'poster') targetDir = dirs.poster;
-        else if (match.targetRole === 'audio') targetDir = dirs.audio;
-        else if (match.targetRole === 'thumbnail') {
-          targetDir = projectDir;
-          finalName = `thumb${ext}`;
-        }
-
-        const placed = placeFile(file.abs, targetDir, finalName);
-        const newRel = relOf(placed);
-        if (match.targetRole === 'thumbnail') existingThumbFlag = newRel;
-        if (explicitThumbFlag === rel) explicitThumbFlag = newRel;
-        if (isSyncedPath(rel) || isSyncedPath(newRel)) editManifest(projectDir, list => {
-          const idx = list.findIndex(e => e.path === rel);
-          if (idx >= 0) list.splice(idx, 1);
-          if (isSyncedPath(newRel)) list.push({ path: newRel, size: fs.statSync(placed).size });
-        });
-      }
+  }
+  for (const f of fs.readdirSync(projectDir).filter(f => !fs.statSync(path.join(projectDir, f)).isDirectory())) {
+    if (f.toLowerCase().startsWith('thumb') && !/\.(md|json|html)$/.test(f)) {
+      existing.push({ abs: path.join(projectDir, f), rel: f });
     }
   }
 
-  // --- place newly uploaded files by elected role ---
-  for (const file of files || []) {
-    const ext = path.extname(file.originalname).toLowerCase();
-    const isVideo = VIDEO_EXT.includes(ext);
-    const isAudio = AUDIO_EXT.includes(ext);
-    let targetDir = isVideo ? dirs.video : isAudio ? dirs.audio : dirs.image;
-    let finalName = file.originalname;
+  // --- removals: anything on disk the plan dropped ---
+  const dropped = new Set();
+  if (project_id && body.media_plan) {
+    const kept = new Set(plan.filter(e => e.source === 'existing').map(e => e.path));
+    for (const file of existing) {
+      if (kept.has(file.rel)) continue;
+      fs.unlinkSync(file.abs);
+      dropped.add(file.rel);
+    }
+  }
 
-    const role = body[`file_role_${file.originalname}`];
-    if (role === 'hero') finalName = `hero${ext}`;
-    else if (role === 'poster') targetDir = dirs.poster;
-    else if (role === 'audio') targetDir = dirs.audio;
-    else if (role === 'thumbnail') {
+  // --- resolve each plan entry to its final destination, in order ---
+  const seq = { video: 0, image: 0, poster: 0, audio: 0 };
+  const staged = []; // { from, finalAbs, oldRel }
+  for (const entry of plan) {
+    const from = entry.source === 'new'
+      ? uploads[entry.index]?.path
+      : existing.find(f => f.rel === entry.path)?.abs;
+    const originalName = entry.source === 'new' ? uploads[entry.index]?.originalname : path.basename(entry.path);
+    if (!from || !fs.existsSync(from)) continue;
+
+    const ext = path.extname(originalName).toLowerCase();
+    const kind = VIDEO_EXT.includes(ext) ? 'video' : AUDIO_EXT.includes(ext) ? 'audio' : 'image';
+    let targetDir = dirs[kind];
+    let finalName;
+    if (entry.role === 'thumbnail') {
       targetDir = projectDir;
       finalName = `thumb${ext}`;
+    } else if (entry.role === 'hero') {
+      finalName = `hero${ext}`;
+    } else {
+      if (entry.role === 'poster') targetDir = dirs.poster;
+      const bucket = entry.role === 'poster' ? 'poster' : kind;
+      finalName = seqName(originalName, ++seq[bucket]);
     }
-
-    const placed = placeFile(file.path, targetDir, finalName);
-    const newRel = relOf(placed);
-    if (role === 'thumbnail') thumbRel = newRel;
-    if (body.explicit_thumb_new === file.originalname) explicitThumbFlag = newRel;
-    if (isSyncedPath(newRel)) editManifest(projectDir, list => {
-      if (!list.some(e => e.path === newRel)) list.push({ path: newRel, size: fs.statSync(placed).size });
+    staged.push({
+      from, role: entry.role, thumb: !!entry.thumb,
+      finalAbs: path.join(targetDir, finalName),
+      oldRel: entry.source === 'existing' ? entry.path : null,
     });
   }
 
+  // Two-phase move so a file can take a name another file is vacating.
+  const parked = staged.map((s, i) => {
+    const tmp = path.join(path.dirname(s.finalAbs), `.__ord_${i}${path.extname(s.finalAbs)}`);
+    fs.renameSync(s.from, tmp);
+    return { ...s, tmp };
+  });
+  const renames = new Map(); // oldRel -> newRel, for frontmatter fixups
+  const placed = [];
+  for (const s of parked) {
+    if (fs.existsSync(s.finalAbs)) fs.unlinkSync(s.finalAbs); // stale leftover
+    fs.renameSync(s.tmp, s.finalAbs);
+    const newRel = relOf(s.finalAbs);
+    if (s.oldRel && s.oldRel !== newRel) renames.set(s.oldRel, newRel);
+    placed.push({ oldRel: s.oldRel, newRel, abs: s.finalAbs, role: s.role, thumb: s.thumb });
+  }
+
+  // --- manifest upkeep: drop what moved or vanished, record what landed ---
+  editManifest(projectDir, list => {
+    for (const rel of [...dropped, ...renames.keys()]) {
+      const idx = list.findIndex(e => e.path === rel);
+      if (idx >= 0) list.splice(idx, 1);
+    }
+    for (const p of placed) {
+      if (!isSyncedPath(p.newRel)) continue;
+      const size = fs.statSync(p.abs).size;
+      const idx = list.findIndex(e => e.path === p.newRel);
+      if (idx >= 0) list[idx] = { path: p.newRel, size };
+      else list.push({ path: p.newRel, size });
+    }
+  });
+
   // --- write the markdown source ---
-  let md = `---\ntitle: "${title}"\ndate: "${date}"\nclient: "${client}"\n`;
-  const thumb = explicitThumbFlag || thumbRel || existingThumbFlag;
-  if (thumb) md += `thumb: "${thumb}"\n`;
-  if (hashtags.length) {
-    md += 'hashtags:\n';
-    for (const tag of hashtags) md += `  - "${tag.replace(/"/g, '\\"')}"\n`;
+  const mdPath = path.join(projectDir, `${folder}.md`);
+  // Frontmatter the wizard doesn't own (posterImages rows, hero overrides,
+  // hidden…) survives an edit; its asset paths follow the reorder.
+  let preserved = {};
+  if (fs.existsSync(mdPath)) {
+    try {
+      preserved = { ...matter(fs.readFileSync(mdPath, 'utf-8')).data };
+    } catch { /* unreadable frontmatter: start clean */ }
   }
-  if (credits.length) {
-    md += 'roles:\n';
-    for (const c of credits) md += `  - role: "${c.role.replace(/"/g, '\\"')}"\n    name: "${c.name.replace(/"/g, '\\"')}"\n`;
+  for (const key of ['title', 'date', 'client', 'thumb', 'hashtags', 'roles', 'credits', 'existingMedia']) {
+    delete preserved[key];
   }
-  md += `---\n\n${description}\n`;
-  fs.writeFileSync(path.join(projectDir, `${folder}.md`), md);
+  preserved = remapPaths(preserved, renames);
+  // an elected hero wins over a frontmatter override, else the drag is a no-op
+  if (plan.some(e => e.role === 'hero')) delete preserved.hero;
+  // explicit orderings get rebuilt from the new sequence, keeping poster rows
+  const orderedRel = role => placed.filter(p => p.role === role).map(p => p.newRel);
+  if (Array.isArray(preserved.posterImages)) {
+    const posters = orderedRel('poster');
+    const rows = [];
+    let cursor = 0;
+    for (const row of preserved.posterImages) {
+      const width = Array.isArray(row) ? row.length : 1;
+      const slice = posters.slice(cursor, cursor + width);
+      cursor += width;
+      if (slice.length) rows.push(Array.isArray(row) ? slice : slice[0]);
+    }
+    if (cursor < posters.length) rows.push(posters.slice(cursor));
+    if (rows.length) preserved.posterImages = rows;
+    else delete preserved.posterImages;
+  }
+  if (Array.isArray(preserved.carouselImages)) {
+    preserved.carouselImages = [...orderedRel('auto'), ...orderedRel('poster')]
+      .filter(p => p.startsWith('assets/image/') || p.startsWith('assets/poster/'));
+  }
+
+  const thumb = placed.find(p => p.thumb)?.newRel ||
+    placed.find(p => p.role === 'thumbnail')?.newRel ||
+    renames.get(existing_thumb || '') || existing_thumb || '';
+
+  const data = { title, date, client };
+  if (thumb) data.thumb = thumb;
+  if (hashtags.length) data.hashtags = hashtags;
+  if (credits.length) data.roles = credits;
+  Object.assign(data, preserved);
+  fs.writeFileSync(mdPath, matter.stringify(`\n${description}\n`, data));
 
   rebuild();
   return folder;
@@ -271,10 +313,30 @@ const server = http.createServer((req, res) => {
     res.writeHead(404);
     return res.end('Not found');
   }
-  res.writeHead(200, {
+  const size = fs.statSync(filePath).size;
+  const headers = {
     'Content-Type': MIME[path.extname(filePath).toLowerCase()] || 'application/octet-stream',
     'Cache-Control': 'no-store', // dev: always serve fresh js/css
-  });
+    'Accept-Ranges': 'bytes',
+  };
+
+  // Range support: without it <video> can't seek, so media fragments (#t=3)
+  // never paint a frame and long clips stall — locally only, R2 serves ranges.
+  const range = /^bytes=(\d*)-(\d*)$/.exec(req.headers.range || '');
+  if (range && (range[1] || range[2])) {
+    let start = range[1] ? parseInt(range[1], 10) : size - parseInt(range[2], 10);
+    let end = range[1] && range[2] ? parseInt(range[2], 10) : size - 1;
+    start = Math.max(0, start);
+    end = Math.min(size - 1, end);
+    if (start > end) {
+      res.writeHead(416, { 'Content-Range': `bytes */${size}` });
+      return res.end();
+    }
+    res.writeHead(206, { ...headers, 'Content-Range': `bytes ${start}-${end}/${size}`, 'Content-Length': end - start + 1 });
+    return fs.createReadStream(filePath, { start, end }).pipe(res);
+  }
+
+  res.writeHead(200, { ...headers, 'Content-Length': size });
   fs.createReadStream(filePath).pipe(res);
 });
 

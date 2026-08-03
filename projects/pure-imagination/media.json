@@ -113,27 +113,27 @@
       "size": 304812
     },
     {
-      "path": "assets/poster/01_cloud_painter_tablet_interface.jpg",
+      "path": "assets/poster/00001_cloud_painter_tablet_interface.jpg",
       "size": 136688
     },
     {
-      "path": "assets/poster/02_draw_your_imagination.jpg",
+      "path": "assets/poster/00002_draw_your_imagination.jpg",
       "size": 276615
     },
     {
-      "path": "assets/poster/03_cloud_painter_beneath_the_sky.jpg",
+      "path": "assets/poster/00003_cloud_painter_beneath_the_sky.jpg",
       "size": 738200
     },
     {
-      "path": "assets/poster/04_a_flower_drawn_by_hand.jpg",
+      "path": "assets/poster/00004_a_flower_drawn_by_hand.jpg",
       "size": 564657
     },
     {
-      "path": "assets/video/8k_ceiling_sky_render.mp4",
+      "path": "assets/video/00001_8k_ceiling_sky_render.mp4",
       "size": 38243107
     },
     {
-      "path": "assets/video/cloud_painter_pipeline_demo.mp4",
+      "path": "assets/video/00002_cloud_painter_pipeline_demo.mp4",
       "size": 2389517
     }
   ]
