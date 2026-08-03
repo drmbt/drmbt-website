@@ -5,7 +5,7 @@
     "client": "Mars College",
     "description": "At Mars College — an off-grid community living in the desert near Bombay Beach, CA — we built a live map of the town and the college campus running on one LAN: a single, community-run internet. The idea was simple: show how that shared network actually sits on the ground, not only in a controller dashboard. The project is a collaboration with VVEX STUDIO partner Yulia Vvedenskaya.  A small pipeline reads the UniFi and UISP controllers and places every radio, access point, and client on the map",
     "date": "2026-06-13",
-    "thumb": "projects/bombay-beach-network-map/assets/image/network-overview.png",
+    "thumb": "https://media.drmbt.com/projects/bombay-beach-network-map/assets/image/network-overview.png",
     "hashtags": [
       "cartography",
       "network mapping",
@@ -31,7 +31,7 @@
     "client": "Personal Project",
     "description": "The New Orleans Map grew out of the platform we originally built for the Bombay Beach Biennale: once the map and schedule app proved itself at the festival, we turned it into a reusable template we customize for the places each of us travels to. New Orleans was the first city to get the treatment — a personal trip planner mapping food, music, neighborhoods, tours, and local tips. Like the rest of the map platform, it's a collaboration with VVEX STUDIO partner Yulia Vvedenskaya.  This time the d",
     "date": "2026-06-12",
-    "thumb": "projects/new-orleans-map/assets/image/nola-trip-planner.jpg",
+    "thumb": "https://media.drmbt.com/projects/new-orleans-map/assets/image/nola-trip-planner.jpg",
     "hashtags": [
       "cartography",
       "map",
@@ -57,7 +57,7 @@
     "client": "Bombay Beach Biennale",
     "description": "For the Bombay Beach Biennale, an annual arts festival in Bombay Beach, CA, we built an interactive map and schedule app to replace a static map and a hard-to-read mobile spreadsheet that forced attendees to jump between tools to figure out what was happening, where, and when. The project is a collaboration with VVEX STUDIO partner Yulia Vvedenskaya.  The bigger challenge was behind the scenes: event data lived across Google Sheets, Airtable, emails, and form submissions — all frequently out of",
     "date": "2026-04-01",
-    "thumb": "projects/bombay-beach-biennale-schedule-map/assets/image/map-and-schedule-app.png",
+    "thumb": "https://media.drmbt.com/projects/bombay-beach-biennale-schedule-map/assets/image/map-and-schedule-app.png",
     "hashtags": [
       "cartography",
       "field mapping",
@@ -78,12 +78,41 @@
     ]
   },
   {
+    "id": "pure-imagination",
+    "title": "PURE IMAGINATION",
+    "client": "Hero BLOOM, NYC",
+    "description": "PURE IMAGINATION was a real-time interactive sky built for the BLOOM exhibition at Hero in New York, a creative challenge brought to me by Space Cowboys. Visitors — mostly children — lay in a field of white blossoms under a massive 8K LED tile that filled the ceiling of the room. On a tablet at the edge of the field they drew a shape, pressed SUBMIT, and watched it drift overhead as a cloud.  The brief was deceptively simple and had no off-the-shelf answer: a drawing made by a five-year-old had",
+    "date": "2024-06-27",
+    "thumb": "projects/pure-imagination/assets/image/hero.jpg",
+    "hashtags": [
+      "interactive",
+      "ai",
+      "installation",
+      "sculpture",
+      "nyc"
+    ],
+    "roles": [
+      {
+        "role": "SYSTEMS ARCHITECTURE",
+        "name": "VINCENT NAPLES"
+      },
+      {
+        "role": "CONTENT CREATION",
+        "name": "VINCENT NAPLES"
+      },
+      {
+        "role": "CREATIVE DIRECTION",
+        "name": "<a href=\"https://www.spacecowboys.studio/\" target=\"_blank\" rel=\"noopener\">SPACE COWBOYS</a>"
+      }
+    ]
+  },
+  {
     "id": "electric-nightmares",
     "title": "ELECTRIC NIGHTMARES",
     "client": "Mars Electronica",
     "description": "ELECTRIC NIGHTMARES is a collection of early text-to-image experiments made with VQGAN + CLIP and shown at Mars Electronica, 2022.  The premise was restraint: feed the model the simplest prompts possible — short, vague phrases chosen to elicit fear — and see what dread it could conjure from almost no verbosity. No style tags, no negative prompts, no prompt engineering. Just \"sleep paralysis demon\". Just \"staring into the abyss, the abyss stares back\".  Each image keeps its original prompt as it",
     "date": "2022-08-01",
-    "thumb": "projects/electric-nightmares/assets/image/hero.jpg",
+    "thumb": "https://media.drmbt.com/projects/electric-nightmares/assets/image/hero.jpg",
     "hashtags": [
       "ai",
       "vqgan+clip",

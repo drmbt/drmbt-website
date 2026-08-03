@@ -114,7 +114,7 @@ listed folder (create it if needed — `_inbox/` is gitignored). Zips land in
 - [ ] https://photos.app.goo.gl/EDchXjHgdsmrn81X6 → `_inbox/prosperity-sphere/`
 - [ ] https://photos.app.goo.gl/yTXr7Tp54V94LyEA9 → `_inbox/pure-slop/` (video infomercial)
 - [ ] https://photos.app.goo.gl/A13RsfsSPEnn1RNs5 → `_inbox/vincent-naples-solo-exhibition/`
-- [ ] https://photos.google.com/share/AF1QipOqfAy3rYPZZGwUienSk4bWFhpUsuyQSqNKK--OaKd8Zk7UoJy-FoOHFFp8B3VQ9Q?key=VDZxZ3NHTmpaWHVTMEpTME5ERU12RkJvZzlGSW9B → `_inbox/pure-imagination/`
+- [x] https://photos.google.com/share/AF1QipOqfAy3rYPZZGwUienSk4bWFhpUsuyQSqNKK--OaKd8Zk7UoJy-FoOHFFp8B3VQ9Q?key=VDZxZ3NHTmpaWHVTMEpTME5ERU12RkJvZzlGSW9B → `_inbox/pure-imagination/` (built)
 - [ ] https://photos.app.goo.gl/pvmrWjocYRna77Jk7 → `_inbox/electric-nightmares/`
 - [ ] https://photos.app.goo.gl/A3uG2NbrfyHf4Ltd6 → `_inbox/lovestadt-latent-latex/` (shared album — split later)
 

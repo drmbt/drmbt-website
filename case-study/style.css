@@ -311,6 +311,11 @@
 }
 .poster-img:hover { border-color: var(--accent); }
 
+/* multi-poster rows stack rather than shrink to thumbnails on narrow screens */
+@media (max-width: 768px) {
+  .poster-row { flex-wrap: wrap; }
+}
+
 /* ---------- carousel ---------- */
 .carousel-section {
   overflow: hidden;

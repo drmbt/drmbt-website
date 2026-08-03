@@ -1,0 +1,140 @@
+{
+  "files": [
+    {
+      "path": "assets/image/00001_the_bloom_room.jpg",
+      "size": 572156
+    },
+    {
+      "path": "assets/image/00002_the_cloud_field.jpg",
+      "size": 798408
+    },
+    {
+      "path": "assets/image/00003_grasses_and_open_sky.jpg",
+      "size": 326963
+    },
+    {
+      "path": "assets/image/00004_the_invitation_wall.jpg",
+      "size": 342467
+    },
+    {
+      "path": "assets/image/00005_kindly_remove_your_shoes.jpg",
+      "size": 367336
+    },
+    {
+      "path": "assets/image/00006_the_drawing_station.jpg",
+      "size": 336953
+    },
+    {
+      "path": "assets/image/00007_tablet_among_the_flowers.jpg",
+      "size": 381671
+    },
+    {
+      "path": "assets/image/00008_a_blank_canvas.jpg",
+      "size": 257617
+    },
+    {
+      "path": "assets/image/00009_silk_flowers_against_the_sky.jpg",
+      "size": 618141
+    },
+    {
+      "path": "assets/image/00010_daylight_on_the_ceiling.jpg",
+      "size": 490791
+    },
+    {
+      "path": "assets/image/00011_a_single_cloud.jpg",
+      "size": 891015
+    },
+    {
+      "path": "assets/image/00012_cirrus_drift.jpg",
+      "size": 396337
+    },
+    {
+      "path": "assets/image/00013_a_cloud_passes_over_the_field.jpg",
+      "size": 725912
+    },
+    {
+      "path": "assets/image/00014_cloud_bloom.jpg",
+      "size": 387230
+    },
+    {
+      "path": "assets/image/00015_a_flower_in_the_clouds.jpg",
+      "size": 439688
+    },
+    {
+      "path": "assets/image/00016_white_bloom_on_lavender.jpg",
+      "size": 493915
+    },
+    {
+      "path": "assets/image/00017_dusk_over_the_room.jpg",
+      "size": 362612
+    },
+    {
+      "path": "assets/image/00018_peach_sky.jpg",
+      "size": 572278
+    },
+    {
+      "path": "assets/image/00019_pale_ceiling.jpg",
+      "size": 507483
+    },
+    {
+      "path": "assets/image/00020_violet_hour.jpg",
+      "size": 624159
+    },
+    {
+      "path": "assets/image/00021_red_flower_and_violet_sky.jpg",
+      "size": 266230
+    },
+    {
+      "path": "assets/image/00022_the_room_goes_pink.jpg",
+      "size": 483552
+    },
+    {
+      "path": "assets/image/00023_visitors_under_the_sky.jpg",
+      "size": 665558
+    },
+    {
+      "path": "assets/image/00024_the_cloud_field_at_play.jpg",
+      "size": 468152
+    },
+    {
+      "path": "assets/image/00025_sitting_in_the_clouds.jpg",
+      "size": 654899
+    },
+    {
+      "path": "assets/image/00026_sunset_over_the_field.jpg",
+      "size": 340676
+    },
+    {
+      "path": "assets/image/00027_last_light.jpg",
+      "size": 606428
+    },
+    {
+      "path": "assets/image/hero.jpg",
+      "size": 304812
+    },
+    {
+      "path": "assets/poster/01_cloud_painter_tablet_interface.jpg",
+      "size": 136688
+    },
+    {
+      "path": "assets/poster/02_draw_your_imagination.jpg",
+      "size": 276615
+    },
+    {
+      "path": "assets/poster/03_cloud_painter_beneath_the_sky.jpg",
+      "size": 738200
+    },
+    {
+      "path": "assets/poster/04_a_flower_drawn_by_hand.jpg",
+      "size": 564657
+    },
+    {
+      "path": "assets/video/8k_ceiling_sky_render.mp4",
+      "size": 38243107
+    },
+    {
+      "path": "assets/video/cloud_painter_pipeline_demo.mp4",
+      "size": 2389517
+    }
+  ]
+}

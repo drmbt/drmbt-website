@@ -35,7 +35,8 @@ class CaseStudy {
           this.data.relatedProjects = others.slice(0, 3).map(p => ({
             title: p.title,
             slug: p.id,
-            thumbnail: p.thumb ? `../../${p.thumb}` : '',
+            // index.json thumbs are site-root-relative, except R2 urls (absolute)
+            thumbnail: p.thumb ? (p.thumb.startsWith('http') ? p.thumb : `../../${p.thumb}`) : '',
           }));
         }
       } catch (e) {

@@ -195,7 +195,12 @@ for (const folder of folders) {
 
   // Frontmatter paths (e.g. thumb) may point at R2-synced files — resolve them
   const resolvedByPath = new Map([...images, ...posterM].map(e => [e.path, e.resolved]));
-  if (data.thumb) data.thumb = resolvedByPath.get(data.thumb) || data.thumb;
+  const resolveOne = p => resolvedByPath.get(p) || p;
+  if (data.thumb) data.thumb = resolveOne(data.thumb);
+  if (Array.isArray(data.carouselImages)) data.carouselImages = data.carouselImages.map(resolveOne);
+  if (Array.isArray(data.posterImages)) {
+    data.posterImages = data.posterImages.map(row => (Array.isArray(row) ? row.map(resolveOne) : resolveOne(row)));
+  }
 
   // Frontmatter wins if explicitly defined
   data.hero = data.hero || discoveredHero ||
